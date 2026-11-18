@@ -21,6 +21,8 @@ public:
 
 
 private:
+    void printFlightsOnDate(const std::string& date, const std::vector<Booking>& bookings, std::ostream& out) const; //helper func to print all flights on a given date for a given passenger
+
     std::map<std::string, Flight> flights_; //map called flights_that maps str flight code to Flight val
     std::map<std::string, std::map<std::string, std::vector<Booking>>> bookings_; //map called bookings_ that maps str passengerId to map that maps str flightCode to vector of Booking vals
 };
