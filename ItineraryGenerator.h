@@ -10,6 +10,7 @@
 #include "Booking.h"
 
 
+
 class ItineraryGenerator {
 public:
     bool loadFlights(const std::string& filename); //true if file loaded successfully, false if not

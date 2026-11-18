@@ -94,7 +94,7 @@ bool ItineraryGenerator::processRequests(const string& filename, ostream& out) c
                 }
 
             }
-
+            
 
         }
 
@@ -118,6 +118,8 @@ bool ItineraryGenerator::processRequests(const string& filename, ostream& out) c
 
 
     }
+
+    
 
     return true;
 
