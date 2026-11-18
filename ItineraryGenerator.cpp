@@ -12,7 +12,7 @@ void ItineraryGenerator::printFlightsOnDate(const string& date, const vector<Boo
     for (size_t i = 0; i < bookings.size(); ++i) { //loop through bookings vector
         const Booking& b = bookings[i]; 
         auto f = flights_.find(b.getFlightCode()); //find flight in flights_ map using flight code from booking
-        out << "    " << f->second.getCode() << " " //following prints w propa formatting 
+        out << "    " << f->second.getCode() << " " //following prints w propa formatting 4 spaces etc
             << f->second.getDestination() << " ("  
             << f->second.getDuration() << " mins): " 
             << b.getSeatClass() << "\n";
@@ -27,7 +27,7 @@ bool ItineraryGenerator::loadFlights(const std::string& filename) { //func retur
 
     std::string code, destination;
     int duration;
-    while (in >> code >> destination >> duration) { //read each line of file in , assign to vars
+    while (in >> code >> destination >> duration) { //read each line of the file in+assign to vars
         flights_[code] = Flight(code, destination, duration); //create flight obj w values, assign to map flights_ with code as key
    
     }
@@ -66,26 +66,26 @@ bool ItineraryGenerator::processRequests(const string& filename, ostream& out) c
 
         out << "Passenger ID: " << passengerId << "\n"; //print passengerId
 
-        if (!date.empty()) { //if date is not empty print flights on date for passenger
+        if (!date.empty()) { 
             auto p = bookings_.find(passengerId);
-            if (p != bookings_.end()) { //find passengerId in bookings_ map
+            if (p != bookings_.end()) { //find pas in map
                 auto d = p->second.find(date); //find date in map of dates for passengerId
                 if (d != p->second.end()) { //if date found, print flights on date for passenger
-                    printFlightsOnDate(date, d->second, out); //call helper func to print flights on date for passenger
+                    printFlightsOnDate(date, d->second, out); 
                 }
             }
         }
 
         else {
-            size_t overall = 0;  //if date is empty, print all flights for passenger
-            auto p = bookings_.find(passengerId); //find passengerId in bookings_ map
-            if (p != bookings_.end()) { //if passengerId found, loop through map of dates for passengerId
-                for (auto d = p->second.begin(); d != p->second.end(); ++d) { //loop through map of dates for passengerId
-                    printFlightsOnDate(d->first, d->second, out); //call helper func to print flights on date for passenger
-                    overall += d->second.size(); //add no of flights on date to overall total
+            size_t overall = 0;  //if date is empty, print all flights for passenger as per spec
+            auto p = bookings_.find(passengerId); //rest is same as above
+            if (p != bookings_.end()) { 
+                for (auto d = p->second.begin(); d != p->second.end(); ++d) { //loop through as print all flights 
+                    printFlightsOnDate(d->first, d->second, out); 
+                    overall += d->second.size(); //add to overall total no flights
                 }
             }
-            out << "  Overall Flights: " << overall << "\n"; //print overall total no of flights for passenger
+            out << "  Overall Flights: " << overall << "\n"; 
         }
 
 
