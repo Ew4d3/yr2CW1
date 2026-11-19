@@ -1,4 +1,4 @@
-#ifndef ITINERARY_GENERATOR_H
+#ifndef ITINERARY_GENERATOR_H //guards
 #define ITINERARY_GENERATOR_H
 
 #include <map>
@@ -28,3 +28,13 @@ private:
 };
 
 #endif
+
+
+
+
+
+
+
+
+
+
