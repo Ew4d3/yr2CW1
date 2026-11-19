@@ -3,8 +3,11 @@
 
 using namespace std;
 
+/*
+    comp + run line
+g++ -o main main.cpp Flight.cpp Booking.cpp ItineraryGenerator.cpp && ./main
 
-//g++ -o main main.cpp Flight.cpp Booking.cpp ItineraryGenerator.cpp && ./main
+*/
 
 int main() {
     ItineraryGenerator generator;
