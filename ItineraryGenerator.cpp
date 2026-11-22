@@ -111,7 +111,7 @@ bool ItineraryGenerator::processRequests(const string& filename, ostream& out) c
             }
 
             //req 4 part 2 - only print overall flights for no date provided. otherwise total as per line IG func last line
-            out << "  Overall Flights: " << overall << "\n\n";  //added double newline for easier to read formatting 
+            out << "  Overall Flights: " << overall << "\n";  //<<"\n"; removed double newline for exact formatting 
 
         }
 
@@ -119,7 +119,7 @@ bool ItineraryGenerator::processRequests(const string& filename, ostream& out) c
 
     }
 
-    
+
 
     return true;
 
