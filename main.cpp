@@ -13,17 +13,17 @@ int main() {
     ItineraryGenerator generator;
 
 
-   if (!generator.loadFlights("flights.txt.txt")) { //if file not opened successfully, return false or opens file and rest runs
+   if (!generator.loadFlights("flights.txt")) { //if file not opened successfully, return false or opens file and rest runs
         cerr << "cant open flights file\n";
         return 1;
     }
 
-    if (!generator.loadBookings("bookings.txt.txt")) {
+    if (!generator.loadBookings("bookings.txt")) {
         cerr << "cant open bookings file\n";
         return 1;
     }
 
-    if (!generator.processRequests("requests.txt.txt", cout)) {
+    if (!generator.processRequests("requests.txt", cout)) {
         cerr << "cant open requests file\n";
         return 1;
     }
