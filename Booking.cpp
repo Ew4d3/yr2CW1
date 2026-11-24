@@ -8,19 +8,19 @@ Booking::Booking(const std::string& passengerId, const std::string& flightCode, 
 
     }
 
-const std::string& Booking::getPassengerId() const {  //getter meths 
+const std::string& Booking::getPassengerId() const {   
     return passengerId_; 
 }
 
-const std::string& Booking::getFlightCode() const {  //getter meths 
+const std::string& Booking::getFlightCode() const {  
     return flightCode_; 
 }
 
-const std::string& Booking::getDate() const {  //getter meths 
+const std::string& Booking::getDate() const {  
     return date_; 
 }
 
-const std::string& Booking::getSeatClass() const {  //getter meths 
+const std::string& Booking::getSeatClass() const {  
     return seatClass_; 
 }
 

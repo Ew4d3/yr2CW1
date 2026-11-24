@@ -12,7 +12,7 @@ using namespace std;
     //4 - Totals start with two spaces
     //5 - mins enclosed in brackets + end w colon
 
-//print all flights on date
+//print all flights on date followed by total
 void ItineraryGenerator::printFlightsOnDate(const string& date, const vector<Booking>& bookings, ostream& out) 
     const {out << "  Date " << date << ":\n"; //req 2 - print date w 2 spaces 
 
@@ -33,13 +33,13 @@ void ItineraryGenerator::printFlightsOnDate(const string& date, const vector<Boo
 }
 
 
-bool ItineraryGenerator::loadFlights(const std::string& filename) { //func returns true if file loaded successfully, false if not - func line 3
-    std::ifstream file(filename.c_str()); //open file assigned to file for reading
+bool ItineraryGenerator::loadFlights(const std::string& filename) {
+    std::ifstream file(filename); //open file 
     if (!file) return false; //if file not opened ret false
 
     std::string code, destination; 
     int duration;
-    while (file >> code >> destination >> duration) { //read each line of the file in+assign to vars
+    while (file >> code >> destination >> duration) { //each line = code , destination , duration , read into vars
         flights_[code] = Flight(code, destination, duration); //create flight obj w values, assign to map flights_ with code as key
    
 
@@ -51,12 +51,12 @@ bool ItineraryGenerator::loadFlights(const std::string& filename) { //func retur
 
 
 bool ItineraryGenerator::loadBookings(const std::string& filename) {
-    std::ifstream file(filename.c_str());  //same as above but for bookings
+    std::ifstream file(filename); //same as above but for bookings
     if (!file) return false; 
 
     std::string passenger, flightCode, date, seatClass; 
-    while (file >> passenger >> flightCode >> date >> seatClass) { //same as above
-        bookings_[passenger][date].push_back(Booking(passenger, flightCode, date, seatClass));    
+    while (file >> passenger >> flightCode >> date >> seatClass) { //each line = passenger,flight,date,seat class assigned to vars.
+        bookings_[passenger][date].push_back(Booking(passenger, flightCode, date, seatClass)); //sort by date so in order   
 
 
     }
@@ -70,33 +70,34 @@ bool ItineraryGenerator::loadBookings(const std::string& filename) {
 //If only a passenger ID is given, print the full itinerary
 //If a date is provided, print only flights for that date
 bool ItineraryGenerator::processRequests(const string& filename, ostream& out) const { 
-    ifstream file(filename.c_str());
+    ifstream file(filename);
     if (!file) return false;
 
 
     string line; 
-    while (getline(file, line)) { //read each line of file in , assign to line
-        istringstream iss(line); //new string stream iss to read from line
+    while (getline(file, line)) { 
+        istringstream iss(line); 
         string passengerId, date; 
         if (!(iss >> passengerId)) continue; //if no pId next line
-        iss >> date; 
+        iss >> date;  //if no date, date remains empty string
 
         out << "Passenger ID: " << passengerId << "\n"; //req 1 - print pId 
 
 
 
-        if (!date.empty()) { //if date specified
-            auto pId = bookings_.find(passengerId); 
-            if (pId != bookings_.end()) { //find pId in map
-                auto flyDate = pId->second.find(date); //find date in map of dates for pId
-                if (flyDate != pId->second.end()) { //if date found print flights on date
-                    printFlightsOnDate(date, flyDate->second, out);
-                }
+        if (!date.empty()) { //if date given
+            vector<Booking> flightsOnDate; //stays empty if passenger/date has no bookings
 
-            }
-            
-
+            auto pId = bookings_.find(passengerId);
+            if (pId != bookings_.end()) {
+                auto flyDate = pId->second.find(date);
+                if (flyDate != pId->second.end()) {
+                    flightsOnDate = flyDate->second;  //get bookings for that date
         }
+    }
+
+    printFlightsOnDate(date, flightsOnDate, out); //prints "Total Flights: 0" if empty
+}
 
 
 
