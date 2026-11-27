@@ -13,7 +13,7 @@ int main() {
     ItineraryGenerator generator;
 
 
-   if (!generator.loadFlights("flights.txt")) { //if file not opened successfully, return false or opens file and rest runs
+   if (!generator.loadFlights("flights.txt")) { //if file not opened successfully, return false
         cerr << "cant open flights file\n";
         return 1;
     }

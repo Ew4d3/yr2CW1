@@ -20,6 +20,12 @@ void ItineraryGenerator::printFlightsOnDate(const string& date, const vector<Boo
         const Booking& booking = bookings[i]; 
         auto flight = flights_.find(booking.getFlightCode()); //find flight in flights_ map using flight code from booking
 
+        if (flight == flights_.end()) { //flight code not in flights.txt, so output unknown flight message+continue to next booking
+            out << "    " << booking.getFlightCode() << " (unknown flight): "
+                << booking.getSeatClass() << "\n";
+            continue;
+        }
+
         //following adheres to formatting reqs , prints w propa formatting 4 spaces, mins in brace etc
         out << "    " << flight->second.getCode() << " " 
             << flight->second.getDestination() << " (" << flight->second.getDuration() << " mins): " //req 5
@@ -33,11 +39,11 @@ void ItineraryGenerator::printFlightsOnDate(const string& date, const vector<Boo
 }
 
 
-bool ItineraryGenerator::loadFlights(const std::string& filename) {
-    std::ifstream file(filename); //open file 
+bool ItineraryGenerator::loadFlights(const string& filename) {
+    ifstream file(filename); //open file 
     if (!file) return false; //if file not opened ret false
 
-    std::string code, destination; 
+    string code, destination; 
     int duration;
     while (file >> code >> destination >> duration) { //each line = code , destination , duration , read into vars
         flights_[code] = Flight(code, destination, duration); //create flight obj w values, assign to map flights_ with code as key
@@ -50,11 +56,11 @@ bool ItineraryGenerator::loadFlights(const std::string& filename) {
 }
 
 
-bool ItineraryGenerator::loadBookings(const std::string& filename) {
-    std::ifstream file(filename); //same as above but for bookings
+bool ItineraryGenerator::loadBookings(const string& filename) {
+    ifstream file(filename); //same as above but for bookings
     if (!file) return false; 
 
-    std::string passenger, flightCode, date, seatClass; 
+    string passenger, flightCode, date, seatClass; 
     while (file >> passenger >> flightCode >> date >> seatClass) { //each line = passenger,flight,date,seat class assigned to vars.
         bookings_[passenger][date].push_back(Booking(passenger, flightCode, date, seatClass)); //sort by date so in order   
 
@@ -93,11 +99,12 @@ bool ItineraryGenerator::processRequests(const string& filename, ostream& out) c
                 auto flyDate = pId->second.find(date);
                 if (flyDate != pId->second.end()) {
                     flightsOnDate = flyDate->second;  //get bookings for that date
-        }
-    }
+                }
+            }
 
-    printFlightsOnDate(date, flightsOnDate, out); //prints "Total Flights: 0" if empty
-}
+            printFlightsOnDate(date, flightsOnDate, out); //prints "Total Flights: 0" if empty
+    
+        }
 
 
 
